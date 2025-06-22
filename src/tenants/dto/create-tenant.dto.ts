@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTenantDto {
   @ApiProperty({
-    example: 'Obiora & Sons',
+    example: 'Obiora-Sons',
     description: 'Name of the tenant',
     required: true,
   })

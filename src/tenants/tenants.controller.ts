@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
-import { CreateTenantDto } from './dto/create-tenant.dto';
+// import { CreateTenantDto } from './dto/create-tenant.dto';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { CreateTenantWithUserDto } from './dto/create-tenant-with-user.dto';
 // import { Tenant } from './entities/tenant.entity';
 
 @ApiTags('Tenants')
@@ -27,8 +28,8 @@ export class TenantsController {
   @Post()
   @ApiOperation({ summary: 'Create a tenant' })
   // @ApiResponse({ status: 201, type: Tenant })
-  @ApiBody({ type: CreateTenantDto })
-  async create(@Body() createTenantDto: CreateTenantDto) {
-    return this.tenantsService.create(createTenantDto);
+  @ApiBody({ type: CreateTenantWithUserDto })
+  async create(@Body() createTenantWithUserDto: CreateTenantWithUserDto) {
+    return this.tenantsService.createWithUser(createTenantWithUserDto);
   }
 }
