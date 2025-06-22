@@ -3,7 +3,9 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('tenants')
 export class Tenant {
@@ -12,6 +14,9 @@ export class Tenant {
 
   @Column({ unique: true })
   name: string;
+
+  @OneToMany(() => User, (user) => user.tenant)
+  users: User[];
 
   @Column({ default: true })
   is_active: boolean;
