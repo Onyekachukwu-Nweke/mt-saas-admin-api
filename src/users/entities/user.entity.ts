@@ -4,9 +4,11 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  ManyToMany,
   CreateDateColumn,
 } from 'typeorm';
 import { Tenant } from '../../tenants/entities/tenant.entity';
+import { Role } from '../../roles/entities/role.entity';
 
 @Entity('users')
 export class User {
@@ -33,6 +35,9 @@ export class User {
 
   @Column({ default: true })
   is_active: boolean;
+
+  @ManyToMany(() => Role, (role) => role.users)
+  roles: Role[];
 
   @CreateDateColumn()
   created_at: Date;
