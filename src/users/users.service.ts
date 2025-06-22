@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -44,8 +44,32 @@ export class UsersService {
   async findOneByEmail(email: string): Promise<User> {
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
     return user;
+  }
+
+  /**
+   * Finds a user by ID scoped to a specific tenant.
+   * @param id - The ID of the user.
+   * @param tenantId - The ID of the tenant.
+   * @returns The user with the specified ID and tenant ID.
+   */
+  async findByIdScoped(id: string, tenantId: string): Promise<User | null> {
+    return this.userRepo.findOne({ where: { id, tenant_id: tenantId } });
+  }
+
+  /**
+   * Soft deletes a user by ID.
+   * @param id - The ID of the user.
+   * @returns The deleted user.
+   */
+  async softDelete(id: string): Promise<User> {
+    const user = await this.userRepo.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.is_active = false;
+    return this.userRepo.save(user);
   }
 }
