@@ -6,7 +6,7 @@ dotenv.config({
 });
 
 export default {
-  port: parseInt(process.env.PORT),
+  port: parseInt(process.env.PORT ?? '3000'),
   env: process.env.NODE_ENV,
   jwt: {
     secret: process.env.JWT_SECRET,
